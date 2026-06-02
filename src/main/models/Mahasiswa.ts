@@ -4,4 +4,5 @@ export interface Mahasiswa {
   nama: string;
   jurusan: string;
   angkatan: number;
+  ipk: number;
 }

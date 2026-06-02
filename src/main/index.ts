@@ -2,13 +2,15 @@ import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
 import { Database } from "./db/Database";
 import { MahasiswaRepository } from "./db/MahasiswaRepository";
+import { DosenRepository } from "./db/DosenRepository";
 
-let repo: MahasiswaRepository;
+let mahasiswaRepo: MahasiswaRepository;
+let dosenRepo: DosenRepository;
 
 function createWindow(): void {
   const win = new BrowserWindow({
-    width: 900,
-    height: 600,
+    width: 1000,
+    height: 700,
     webPreferences: {
       preload: path.join(__dirname, "../preload/index.js"),
       contextIsolation: true,
@@ -31,7 +33,9 @@ function createWindow(): void {
 
 app.whenReady().then(() => {
   const db = Database.getInstance();
-  repo = new MahasiswaRepository(db);
+
+  mahasiswaRepo = new MahasiswaRepository(db);
+  dosenRepo = new DosenRepository(db);
 
   createWindow();
 
@@ -49,17 +53,41 @@ app.on("window-all-closed", () => {
 });
 
 ipcMain.handle("mahasiswa:getAll", () => {
-  return repo.findAll();
+  return mahasiswaRepo.findAll();
+});
+
+ipcMain.handle("mahasiswa:search", (_, keyword: string) => {
+  return mahasiswaRepo.search(keyword);
 });
 
 ipcMain.handle("mahasiswa:insert", (_, data) => {
-  return repo.insert(data);
+  return mahasiswaRepo.insert(data);
 });
 
 ipcMain.handle("mahasiswa:update", (_, id, data) => {
-  return repo.update(id, data);
+  return mahasiswaRepo.update(id, data);
 });
 
 ipcMain.handle("mahasiswa:delete", (_, id) => {
-  return repo.delete(id);
+  return mahasiswaRepo.delete(id);
+});
+
+ipcMain.handle("dosen:getAll", () => {
+  return dosenRepo.findAll();
+});
+
+ipcMain.handle("dosen:search", (_, keyword: string) => {
+  return dosenRepo.search(keyword);
+});
+
+ipcMain.handle("dosen:insert", (_, data) => {
+  return dosenRepo.insert(data);
+});
+
+ipcMain.handle("dosen:update", (_, id, data) => {
+  return dosenRepo.update(id, data);
+});
+
+ipcMain.handle("dosen:delete", (_, id) => {
+  return dosenRepo.delete(id);
 });

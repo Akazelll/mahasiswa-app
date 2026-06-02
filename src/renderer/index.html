@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manajemen Mahasiswa</title>
+
+  <title>Mahasiswa App</title>
 
   <style>
     * {
@@ -16,18 +17,33 @@
       font-family: system-ui, sans-serif;
       padding: 24px;
       background: #f5f5f5;
+      color: #111827;
     }
 
     h1 {
-      margin-bottom: 20px;
-      font-size: 1.4rem;
+      margin-bottom: 24px;
+      font-size: 1.6rem;
     }
 
-    form {
+    h2 {
+      margin-bottom: 12px;
+      font-size: 1.2rem;
+    }
+
+    section {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    form,
+    .search-box {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     input {
@@ -38,21 +54,57 @@
     }
 
     button {
-      padding: 8px 16px;
+      padding: 8px 14px;
       border: none;
       border-radius: 6px;
       cursor: pointer;
       font-size: 0.9rem;
     }
 
-    #btn-save {
+    .btn-save {
       background: #3b82f6;
       color: white;
     }
 
-    #btn-clear {
+    .btn-clear {
       background: #6b7280;
       color: white;
+    }
+
+    .btn-search {
+      background: #10b981;
+      color: white;
+    }
+
+    .btn-edit {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .btn-delete {
+      background: #ef4444;
+      color: white;
+      margin-left: 4px;
+    }
+
+    .message {
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      display: none;
+      font-size: 0.9rem;
+    }
+
+    .message.success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .message.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
     }
 
     table {
@@ -75,47 +127,83 @@
       background: #f9fafb;
       font-weight: 600;
     }
-
-    .btn-edit {
-      background: #f59e0b;
-      color: white;
-    }
-
-    .btn-delete {
-      background: #ef4444;
-      color: white;
-      margin-left: 4px;
-    }
   </style>
 </head>
 
 <body>
-  <h1>Manajemen Data Mahasiswa</h1>
+  <h1>Manajemen Data Akademik</h1>
 
-  <form id="form-mahasiswa">
-    <input type="hidden" id="edit-id" />
-    <input type="text" id="nim" placeholder="NIM" required />
-    <input type="text" id="nama" placeholder="Nama" required />
-    <input type="text" id="jurusan" placeholder="Jurusan" required />
-    <input type="number" id="angkatan" placeholder="Angkatan" required />
+  <section>
+    <h2>Data Mahasiswa</h2>
 
-    <button type="submit" id="btn-save">Simpan</button>
-    <button type="button" id="btn-clear">Reset</button>
-  </form>
+    <div id="mahasiswa-message" class="message"></div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>NIM</th>
-        <th>Nama</th>
-        <th>Jurusan</th>
-        <th>Angkatan</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
+    <form id="form-mahasiswa">
+      <input type="hidden" id="mahasiswa-edit-id" />
+      <input type="text" id="nim" placeholder="NIM" required />
+      <input type="text" id="mahasiswa-nama" placeholder="Nama" required />
+      <input type="text" id="jurusan" placeholder="Jurusan" required />
+      <input type="number" id="angkatan" placeholder="Angkatan" required />
+      <input type="number" id="ipk" placeholder="IPK" min="0" max="4" step="0.01" required />
 
-    <tbody id="table-body"></tbody>
-  </table>
+      <button type="submit" class="btn-save">Simpan Mahasiswa</button>
+      <button type="button" id="mahasiswa-clear" class="btn-clear">Reset</button>
+    </form>
+
+    <div class="search-box">
+      <input type="text" id="mahasiswa-search" placeholder="Cari NIM atau nama mahasiswa" />
+      <button type="button" id="mahasiswa-search-button" class="btn-search">Cari</button>
+      <button type="button" id="mahasiswa-reset-search" class="btn-clear">Tampilkan Semua</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>NIM</th>
+          <th>Nama</th>
+          <th>Jurusan</th>
+          <th>Angkatan</th>
+          <th>IPK</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="mahasiswa-table-body"></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Data Dosen</h2>
+
+    <div id="dosen-message" class="message"></div>
+
+    <form id="form-dosen">
+      <input type="hidden" id="dosen-edit-id" />
+      <input type="text" id="nidn" placeholder="NIDN" required />
+      <input type="text" id="dosen-nama" placeholder="Nama Dosen" required />
+      <input type="text" id="prodi" placeholder="Program Studi" required />
+
+      <button type="submit" class="btn-save">Simpan Dosen</button>
+      <button type="button" id="dosen-clear" class="btn-clear">Reset</button>
+    </form>
+
+    <div class="search-box">
+      <input type="text" id="dosen-search" placeholder="Cari NIDN atau nama dosen" />
+      <button type="button" id="dosen-search-button" class="btn-search">Cari</button>
+      <button type="button" id="dosen-reset-search" class="btn-clear">Tampilkan Semua</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>NIDN</th>
+          <th>Nama</th>
+          <th>Program Studi</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="dosen-table-body"></tbody>
+    </table>
+  </section>
 
   <script type="module" src="./renderer.ts"></script>
 </body>
