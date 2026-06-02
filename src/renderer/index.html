@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manajemen Mahasiswa</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      padding: 24px;
+      background: #f5f5f5;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+    }
+
+    form {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    #btn-save {
+      background: #3b82f6;
+      color: white;
+    }
+
+    #btn-clear {
+      background: #6b7280;
+      color: white;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: #f9fafb;
+      font-weight: 600;
+    }
+
+    .btn-edit {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .btn-delete {
+      background: #ef4444;
+      color: white;
+      margin-left: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Manajemen Data Mahasiswa</h1>
+
+  <form id="form-mahasiswa">
+    <input type="hidden" id="edit-id" />
+    <input type="text" id="nim" placeholder="NIM" required />
+    <input type="text" id="nama" placeholder="Nama" required />
+    <input type="text" id="jurusan" placeholder="Jurusan" required />
+    <input type="number" id="angkatan" placeholder="Angkatan" required />
+
+    <button type="submit" id="btn-save">Simpan</button>
+    <button type="button" id="btn-clear">Reset</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>NIM</th>
+        <th>Nama</th>
+        <th>Jurusan</th>
+        <th>Angkatan</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+
+    <tbody id="table-body"></tbody>
+  </table>
+
+  <script type="module" src="./renderer.ts"></script>
+</body>
+</html>
